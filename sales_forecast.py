@@ -117,7 +117,7 @@ def tabs():
     with tab2:
         st.header('Forecasts')
         forecast_2026_sales()
-              st.write('Sales forecasts are based on 2025 sales data.')
+        st.write('Sales forecasts are based on 2025 sales data.')
           
 
 get_input()
