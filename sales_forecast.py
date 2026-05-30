@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import openpyxl
 
 df_2026 = pd.read_excel('2026_sales.xlsx')
 df_2025 = pd.read_excel('sales_2025.xlsx')
