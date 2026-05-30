@@ -1,9 +1,9 @@
 import pandas as pd
 import streamlit as st
 
-df_2024 = pd.read_excel('sales_2024.xlsx')
 df_2026 = pd.read_excel('2026_sales.xlsx')
 df_2025 = pd.read_excel('sales_2025.xlsx')
+df_2024 = pd.read_excel('sales_2024.xlsx')
 
 # List of months to pull from.
 months = ['January', 'February', 'March', 'April',
