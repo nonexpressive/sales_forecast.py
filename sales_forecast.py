@@ -87,24 +87,32 @@ def compare_selected_month():
 
 # Forecasting 2026 sales.
 def forecast_2026_sales():
-    df_2025['Growth'] = df_2025['Sales'].pct_change()
-    average_growth = df_2025['Growth'].mean()
+   selected_month = st.selectbox(
+       'Select a 2025 month to forecast: ',
+       forecast_months
+   )
 
-    last_sales = df_2025['Sales'].iloc[-1]
+   if selected_month in df_2024['Month'].values and selected_month in df_2025['Month'].values:
+       sales_2024 = df_2024[df_2024['Month'] == selected_month]['Sales'].iloc[0]
+       sales_2025 = df_2025[df_2025['Month'] == selected_month]['Sales'].iloc[0]
 
-    predicted_sales = {}
+       growth_rate = (sales_2025 - sales_2024) / sales_2024
+       predicted_2026 = sales_2025 * (1+ growth_rate)
 
-    for month in forecast_months:
-        last_sales = last_sales * (1 + average_growth)
-        predicted_sales[month] = last_sales
-
-    selected_month = st.selectbox('Select a 2026 month to forecast: ',
-                                      forecast_months)
-        
-    st.write(
-        f'Predicted {selected_month} 2026 Sales:',
-        f'${predicted_sales[selected_month]:.2f}'
-        )
+       if predicted_2026 > sales_2024 and predicted_2026 > sales_2025:
+           predicted_color = 'green'
+       elif predicted_2026 < sales_2024 and predicted_2026 < sales_2025:
+           predicted_color = 'red'
+       else:
+           predicted_color = 'goldenrod'
+       st.markdown(
+           f"Predicted {selected_month} 2026 Sales: "
+           f"<span style='color: {predicted_color};'>${predicted_2026:.2f}</span>",
+           unsafe_allow_html=True
+       )
+       
+   else:
+       st.write('Data unavailable')
 
 # Creates tabs.
 def tabs():
@@ -117,8 +125,11 @@ def tabs():
     with tab2:
         st.header('Forecasts')
         forecast_2026_sales()
-        st.write('Sales forecasts are based on 2025 sales data.')
-          
+        st.write('Sales forecasts are based on 2024 and 2025 sales data.\n' \
+        'If predicted sales are more than 2024 and 2025 sales, the number' \
+        ' will appear green. If predicted sales are in between 2024 and 2025 ' \
+        'sales, the number will appear yellow. If predicted sales are ' \
+        'less than both 2024 and 2025 sales, the number will appear red.')          
 
 get_input()
 tabs()
