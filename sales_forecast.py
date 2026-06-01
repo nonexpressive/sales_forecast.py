@@ -121,11 +121,7 @@ def tabs():
     with tab2:
         st.header('Forecasts')
         forecast_2026_sales()
-        st.write('Sales forecasts are based on 2024 and 2025 sales data.\n' \
-        'If predicted sales are more than 2024 and 2025 sales, the number' \
-        ' will appear green. If predicted sales are in between 2024 and 2025 ' \
-        'sales, the number will appear yellow. If predicted sales are ' \
-        'less than both 2024 and 2025 sales, the number will appear red.')          
+        st.write('Sales forecasts are based on 2024, 2025, and 2026 sales data.')          
 
 get_input()
 tabs()
