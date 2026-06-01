@@ -89,28 +89,23 @@ def compare_selected_month():
 # Forecasting 2026 sales.
 def forecast_2026_sales():
    selected_month = st.selectbox(
-       'Select a 2025 month to forecast: ',
+       'Select a 2026 month to forecast: ',
        forecast_months
    )
 
    if selected_month in df_2024['Month'].values and selected_month in df_2025['Month'].values:
        sales_2024 = df_2024[df_2024['Month'] == selected_month]['Sales'].iloc[0]
        sales_2025 = df_2025[df_2025['Month'] == selected_month]['Sales'].iloc[0]
+       
+       df_2026['Growth'] = df_2026['Sales'].pct_change()
+       average_2026_growth = df_2026['Growth'].mean()
 
-       growth_rate = (sales_2025 - sales_2024) / sales_2024
-       predicted_2026 = sales_2025 * (1+ growth_rate)
+       growth_2024_to_2025 = (sales_2025 - sales_2024) / sales_2024
+       average_growth = (growth_2024_to_2025 + average_2026_growth) / 2
 
-       if predicted_2026 > sales_2024 and predicted_2026 > sales_2025:
-           predicted_color = 'green'
-       elif predicted_2026 < sales_2024 and predicted_2026 < sales_2025:
-           predicted_color = 'red'
-       else:
-           predicted_color = 'goldenrod'
-       st.markdown(
-           f"Predicted {selected_month} 2026 Sales: "
-           f"<span style='color: {predicted_color};'>${predicted_2026:.2f}</span>",
-           unsafe_allow_html=True
-       )
+       predicted_2026 = sales_2025 * (1 + average_growth)
+
+       st.write(f'Predicted {selected_month} 2026 Sales: ', f'${predicted_2026:.2f}')
        
    else:
        st.write('Data unavailable')
