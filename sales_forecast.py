@@ -105,7 +105,19 @@ def forecast_2026_sales():
 
        predicted_2026 = sales_2025 * (1 + average_growth)
 
-       st.write(f'Predicted {selected_month} 2026 Sales: ', f'${predicted_2026:.2f}')
+       if predicted_2026 > sales_2024 and predicted_2026 > sales_2025:
+                 st.markdown(
+                           f"Predicted {selected_month} 2026 Sales: "
+                           f"<span style='color: green;'>${predicted_2026:.2f}</span>",
+                           unsafe_allow_html=True)
+           
+       elif predicted_2026 < sales_2024 and predicted_2026 < sales_2025:
+                 st.markdown(
+                           f"Predicted {selected_month} 2026 Sales: "
+                           f"<span style='color: red;'>${predicted_2026:.2f}</span>",
+                           unsafe_allow_html=True)
+       else:
+           st.write(f'Predicted {selected_month} 2026 Sales: ', f'${predicted_2026:.2f}')
        
    else:
        st.write('Data unavailable')
@@ -121,7 +133,11 @@ def tabs():
     with tab2:
         st.header('Forecasts')
         forecast_2026_sales()
-        st.write('Sales forecasts are based on 2024, 2025, and 2026 sales data.')          
+        st.write('Sales forecasts are based on 2024, 2025, and 2026 sales data. '
+                'If sales are green, that means 2026 sales are greater than '
+                'both 2024 and 2025 sales. If sales are red, that means 2026 sales '
+                'are less than 2024 and 2025 sales. If sales are white, that means '
+                'that sales are in between 2024 and 2024 sales.')          
 
 get_input()
 tabs()
